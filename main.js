@@ -40,6 +40,8 @@ function init() {
     renderer.domElement.addEventListener('pointerup', onPointerUp, false);
     window.addEventListener('resize', onWindowResize, false);
     
+    disableTouchInteractions();
+    
     animate();
 }
 
@@ -327,6 +329,20 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function disableTouchInteractions() {
+    document.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    document.body.style.webkitTouchCallout = 'none';
 }
 
 init();
